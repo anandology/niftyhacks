@@ -8,7 +8,7 @@ requirements = [
 
 setup(
     name='niftyhacks',
-    version='0.1.0-dev',
+    version='0.1.0',
     description='assorted hacks by @anandology',
     author='Anand Chitipothu',
     author_email='anandology@gmail.com',
