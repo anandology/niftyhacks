@@ -27,7 +27,6 @@ class Browser:
 
     def post(self, url, data, **kw):
         logger.info("POST %s", url)
-        print data
         self._response = self._session.post(url, data, **kw)
         return self._response
 
@@ -64,9 +63,6 @@ class Browser:
         select = self.get_soup().find("select", {"name": name})
         options = select.find_all("option")
         d = dict((o['value'], o.get_text().strip()) for o in options)
-
-        print d
-        print ignore
 
         if ignore:
             for k in ignore:
