@@ -21,7 +21,7 @@ class Schema:
         :return: list of table objects
         """
         rows = self.db.where("information_schema.tables", table_schema=table_schema, **filters)
-        return [Table(db, row) for row in rows]
+        return [Table(self.db, row) for row in rows]
 
     def get_table(self, table_name, table_schema="public"):
         """Returns the table with specified table name.
@@ -60,7 +60,7 @@ class Table:
         return columns and columns[0] or None
 
     def has_column(self, column_name):
-        return get_column(column_name) is not None
+        return self.get_column(column_name) is not None
 
 class Column:
     """A column in a database table.
