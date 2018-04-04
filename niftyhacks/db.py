@@ -5,6 +5,7 @@ available tables, coulmns and constraints.
 
 This is tested only on postgres db.
 """
+from collections import defaultdict
 
 class Schema:
     """Database Schema
@@ -36,6 +37,10 @@ class Schema:
     def has_table(self, table_name, table_schema='public'):
         return self.get_table(table_name=table_name, table_schema=table_schema) is not None
 
+    def has_enum_type(self, type_name):
+        row = self.db.where("pg_type", typcategory='E', typname=type_name).first()
+        return bool(row)
+
 class Table:
     """Table in a database.
 
@@ -62,6 +67,12 @@ class Table:
     def has_column(self, column_name):
         return self.get_column(column_name) is not None
 
+    def get_enum_types(self):
+        return EnumType.find_all()
+
+    def has_enum_type(self, name):
+        return any(enum.name==name for enum in self.get_enum_types())
+
 class Column:
     """A column in a database table.
 
@@ -75,3 +86,43 @@ class Column:
     def __init__(self, table, column_data):
         self.table = table
         self.__dict__.update(column_data)
+
+class EnumType:
+    """EnumType in postgres database.
+    """
+    def __init__(self, name, values):
+        self.name = name
+        self.values = values
+
+    def __eq__(self, other):
+        return isinstance(other, EnumType) \
+            and self.name == other.name \
+            and self.values == other.values
+
+    def __repr__(self):
+        return "<TYPE {} ENUM {}>".format(self.name, self.values)
+
+    @classmethod
+    def find_all(cls, db):
+        q = """
+        SELECT
+            n.nspname as enum_schema,
+            t.typname as enum_name,
+            e.enumlabel as enum_value,
+            e.enumsortorder as sort_order
+        FROM pg_type t
+        JOIN pg_enum e ON t.oid = e.enumtypid
+        JOIN pg_catalog.pg_namespace n ON n.oid = t.typnamespace
+        WHERE n.nspname = 'public'
+        ORDER BY t.typname, e.enumsortorder
+        """
+        types = defaultdict(list)
+        for row in db.query(q):
+            types[row.enum_name].append(row.enum_value)
+        return [EnumType(name, values) for name, values in types.items()]
+
+    @classmethod
+    def find(cls, db, name):
+        for enum in cls.find_all(db):
+            if enum.name == name:
+                return enum
