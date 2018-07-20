@@ -4,11 +4,12 @@
 from setuptools import setup
 
 requirements = [
+    'Jinja2'
 ]
 
 setup(
     name='niftyhacks',
-    version='0.1.0',
+    version='0.2.0',
     description='assorted hacks by @anandology',
     author='Anand Chitipothu',
     author_email='anandology@gmail.com',
@@ -31,4 +32,8 @@ setup(
         'Programming Language :: Python :: 3.3',
         'Programming Language :: Python :: 3.4',
     ],
+    entry_points='''
+        [console_scripts]
+        jinja-envy=niftyhacks.jinja_envy:main
+    '''
 )
