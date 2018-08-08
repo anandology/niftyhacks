@@ -1,11 +1,19 @@
 """Simple browser like interface for nagivating a web page and extracting
-data. 
+data.
 
 Uses requests and BeautifulSoup.
 """
 from bs4 import BeautifulSoup
 import requests
 import logging
+import sys
+
+PYTHON2 = (sys.version_info.major == 2)
+if PYTHON2:
+    TEXT_TYPES = [unicode, str] # noqa
+else:
+    TEXT_TYPES = [str] # noqa
+
 
 logger = logging.getLogger(__name__)
 
@@ -103,7 +111,7 @@ class Form:
         return params
 
     def find_select_value(self, select):
-        if isinstance(select, basestring):
+        if isinstance(select, TEXT_TYPES):
             select = self._form.find("select", {"name": select})
         option = select.find("option", {"selected": "selected"})
         return option and option.get('value')
