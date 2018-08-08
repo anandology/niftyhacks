@@ -4,7 +4,9 @@
 from setuptools import setup
 
 requirements = [
-    'Jinja2'
+    'Jinja2',
+    'beautifulsoup4',
+    'requests'
 ]
 
 setup(
@@ -21,7 +23,7 @@ setup(
     license="BSD",
     zip_safe=False,
     classifiers=[
-        'Development Status :: 2 - Pre-Alpha',
+        'Development Status :: 4 - Beta',
         'Intended Audience :: Developers',
         'License :: OSI Approved :: BSD License',
         'Natural Language :: English',
@@ -29,8 +31,9 @@ setup(
         'Programming Language :: Python :: 2.6',
         'Programming Language :: Python :: 2.7',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.3',
-        'Programming Language :: Python :: 3.4',
+        'Programming Language :: Python :: 3.5',
+        'Programming Language :: Python :: 3.6',
+        'Programming Language :: Python :: 3.7',
     ],
     entry_points='''
         [console_scripts]
