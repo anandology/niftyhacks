@@ -11,7 +11,7 @@ requirements = [
 
 setup(
     name='niftyhacks',
-    version='0.2.0',
+    version='0.3.0',
     description='assorted hacks by @anandology',
     author='Anand Chitipothu',
     author_email='anandology@gmail.com',
