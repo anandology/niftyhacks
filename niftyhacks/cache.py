@@ -56,7 +56,7 @@ def to_args(f, *args, **kwargs):
     [1, 3]
     """
     kwargs = to_kwargs(f, *args, **kwargs)
-    s = inspect.getargspec(f)
+    s = inspect.getfullargspec(f)
     return [kwargs[a] for a in s.args]
 
 class DiskCache(object):
