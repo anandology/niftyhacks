@@ -32,7 +32,7 @@ def to_kwargs(f, *args, **kwargs):
     {'a': 1, 'b': 3}
     """
 
-    s = inspect.getargspec(f)
+    s = inspect.getfullargspec(f)
     defaults = s.defaults or []
     default_args = s.args[-len(defaults):]
 
