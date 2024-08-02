@@ -99,7 +99,7 @@ class DiskCache(object):
                 filepath = path.format(*args, **kwargs)            
                 disk = Disk()
                 content = disk.read(filepath)
-                if content:
+                if content is not None:
                     return content
                 else:
                     content = f(*a, **kw)
