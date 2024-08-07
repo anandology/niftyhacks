@@ -196,6 +196,8 @@ class Disk:
             if inspect.isgenerator(content):
                 content = list(content)
             content = json.dumps(content, indent=4)
+        if path.endswith(".jsonl"):
+            content = "\n".join(json.dumps(d, separators=(',', ':')) for d in content)
         elif path.endswith(".csv"):
             f = StringIO()
             w = csv.writer(f)
@@ -223,6 +225,8 @@ class Disk:
             f = open(path)
             if path.endswith(".json"):
                 return json.load(f)
+            if path.endswith(".jsonl"):
+                return [json.load(line) for line in f]
             elif path.endswith(".csv"):
                 reader = csv.reader(f)
                 return list(reader)
